@@ -10,4 +10,9 @@ export interface FindProductParams {
     price: [number, number];
     categories: number[];
   }
+
+  pagination?: {
+    limit: number;
+    page: number;
+  }
 }

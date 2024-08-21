@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/entities/Product.entity';
-import { Between, ILike, Repository } from 'typeorm';
+import { And, Between, ILike, LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
 import { FindProductParams } from './product.types';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -16,7 +16,7 @@ export class ProductService {
   ) {}
 
   async find(params?: FindProductParams) {
-    let { where, select, relations, filter } = params || {};
+    let { where, select, relations, filter, pagination } = params || {};
 
     if(filter){
       if(filter.name){
@@ -25,7 +25,19 @@ export class ProductService {
 
       if(filter.price){
         const [min, max] = filter.price
-        where.price = Between(min,max)
+        let price = []
+
+        if(min > 0)
+        {
+          price.push(LessThanOrEqual(min))
+        }
+
+        if(max > 0)
+          {
+            price.push(MoreThanOrEqual(max))
+          }
+
+        where.price = And(...price)
       }
 
       if(filter.categories){
@@ -37,7 +49,21 @@ export class ProductService {
       }
     }
 
-    return this.productRepo.find({ where, select, relations});
+    if(pagination) 
+    {
+
+    }
+
+    return this.productRepo.find({
+      where,
+      select,
+      relations,
+      take: pagination?.limit,
+      skip: pagination && pagination.limit * pagination.page,
+      order: {
+        createdAt: 'DESC'
+      }
+    });
   }
   async findOne({ where, select, relations }: FindProductParams = {}) {
     return this.productRepo.findOne({
