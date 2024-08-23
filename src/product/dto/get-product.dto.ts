@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger"
 import { Transform, Type } from "class-transformer"
-import { IsNumber, IsOptional, IsString } from "class-validator"
+import { IsNumber, IsOptional, IsString, Max, Min } from "class-validator"
 
 export class GetProductDto {
     @Type()
@@ -30,12 +30,14 @@ export class GetProductDto {
     @Type()
     @IsOptional()
     @ApiProperty({default: 5, required: false})
-    @IsNumber({}, {each: true})
+    @IsNumber()
+    @Max(50)
     limit: number
     
     @Type()
     @IsOptional()
     @ApiProperty({default: 0, required: false})
-    @IsNumber({}, {each: true})
+    @IsNumber()
+    @Min(0)
     page: number
 }

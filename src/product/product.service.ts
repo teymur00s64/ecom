@@ -49,11 +49,6 @@ export class ProductService {
       }
     }
 
-    if(pagination) 
-    {
-
-    }
-
     return this.productRepo.find({
       where,
       select,

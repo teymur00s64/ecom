@@ -20,6 +20,6 @@ export class Order extends CommonEntity {
     @ManyToOne(() => User, (user) => user.orders)
     user: User;
 
-    @OneToMany(() => OrderItem, (orderitem) => orderitem.order , {onDelete: "CASCADE"})
+    @OneToMany(() => OrderItem, (orderitem) => orderitem.order , {onDelete: "CASCADE", cascade: true})
     items: OrderItem[];
 }

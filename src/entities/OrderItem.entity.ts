@@ -12,6 +12,9 @@ export class OrderItem extends CommonEntity{
     @JoinColumn()
     product: Product;
 
+    @Column()
+    productId: number;
+
     @ManyToOne(() => Order, (order) => order.items)
     order: OrderItem;
 }
