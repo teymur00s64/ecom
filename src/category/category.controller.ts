@@ -11,6 +11,8 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { UserRoles } from 'src/common/enum/user-roles.enum';
 
 @Controller('category')
 @ApiTags('Category')
@@ -29,6 +31,7 @@ export class CategoryController {
 
   @Post()
   @UseGuards(AuthGuard)
+  @Roles(UserRoles.ADMIN)
   @ApiBearerAuth()
   create(@Body() body: CreateCategoryDto) {
     return this.categoryService.create(body);

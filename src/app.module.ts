@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -22,7 +22,9 @@ import { CategoryModule } from './category/category.module';
       password: config.database.password,
       database: config.database.name,
       entities: [`${__dirname}/**/*.entity.{ts,js}`],
-      synchronize: true,
+      migrations:[`${__dirname}/**/migrations/*.js`],
+      migrationsRun: true,
+      synchronize: process.env.NODE_ENV === 'development' ? true : false,
       logging: true,
     }),
     UserModule,

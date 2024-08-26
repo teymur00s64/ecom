@@ -14,6 +14,8 @@ import { AuthGuard } from 'src/guards/auth.guard';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { GetProductDto } from './dto/get-product.dto';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { UserRoles } from 'src/common/enum/user-roles.enum';
 
 @Controller('product')
 @ApiTags('Product')
@@ -34,6 +36,7 @@ export class ProductController {
   @Post()
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
+  @Roles(UserRoles.ADMIN, UserRoles.CONTENT_MANAGER)
   create(@Body() body: CreateProductDto) {
     return this.productService.create(body);
   }
