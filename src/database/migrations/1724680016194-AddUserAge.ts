@@ -3,13 +3,15 @@ import { MigrationInterface, QueryRunner, TableColumn } from "typeorm";
 export class AddUserAge1724680016194 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        queryRunner.addColumn('user', new TableColumn({
+        await queryRunner.addColumn('user', new TableColumn({
             name: 'age',
-            type: 'integer'
+            type: 'integer',
+            isNullable: true
         }))
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.dropColumn('user', 'age')
     }
 
 }
