@@ -37,6 +37,11 @@ export class CreateProductDto {
   image: string;
 
   @Type()
+  @ApiProperty()
+  @IsNumber({}, {each: true})
+  images: number[];
+
+  @Type()
   @IsNumber({}, {each: true})
   @ApiProperty({type: Number, isArray: true})
   @IsOptional()

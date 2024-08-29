@@ -69,7 +69,8 @@ export class ProductService {
   }
   async create(params: CreateProductDto) {
     const categories = await this.categoryService.findByIds(params.categories)
-    let product = this.productRepo.create({...params, categories});
+    const images = params.images.map((id) => ({id}))
+    let product = this.productRepo.create({...params, categories, images});
     await product.save();
 
     return product;
@@ -77,13 +78,17 @@ export class ProductService {
 
   async update(id: number, params: UpdateProductDto) {
     let product = await this.findOne({ where: { id } });
-
     for (let key in params) {
       if (key === 'categories') {
         product.categories = await this.categoryService.findByIds(
           params.categories,
         );
-      } else {
+      } 
+      else if(key === 'images')
+        {
+          product.images = params.images.map((id) => ({id}))
+        }
+      else {
         product[key] = params[key];
       }
     }

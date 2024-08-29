@@ -1,6 +1,7 @@
-import { Column, Entity, ManyToMany } from 'typeorm';
+import { Column, Entity, ManyToMany, OneToMany } from 'typeorm';
 import { CommonEntity } from './Common.entity';
 import { Category } from './Category.entity';
+import { ImageEntity } from './Image.entity';
 
 export type ProductKey = keyof Product;
 
@@ -20,4 +21,7 @@ export class Product extends CommonEntity {
 
   @ManyToMany(() => Category, (category) => category.products)
   categories: Partial<Category>[];
+
+  @OneToMany(() => ImageEntity, (image) => image.product, {eager: true})
+  images: Partial<ImageEntity>[];
 }
