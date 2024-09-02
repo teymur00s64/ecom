@@ -13,7 +13,7 @@ export class ImageEntity extends CommonEntity {
     @Column()
     url: string
 
-    @ManyToOne(() => Product, (product) => product.images, {onDelete: "CASCADE", cascade: true})
+    @ManyToOne(() => Product, (product) => product.images)
     product: Product
 
     @BeforeRemove()

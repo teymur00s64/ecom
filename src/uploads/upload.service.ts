@@ -26,4 +26,8 @@ export class UploadService {
         if(!image) throw new NotFoundException();
         return await image.remove()
     }
+
+    async deleteImages(images: ImageEntity[]) {
+        return await this.imageRepo.remove(images);
+      }
 }
